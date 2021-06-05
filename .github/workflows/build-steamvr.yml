@@ -1,0 +1,27 @@
+name: Build SteamVR master
+
+defaults:
+  run:
+    shell: cmd
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-steamvr-master:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        clean: false
+
+    - name: Unity Build
+      run: |
+        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForSteamVR -buildTarget Win64 -logFile -
+
+    - name: Release
+      run: xcopy /S /E /I /Y dist\SteamVR C:\Builds\VRSashimiTanpopo\SteamVR\VRSashimiTanpopoBuild${{ github.run_number }}

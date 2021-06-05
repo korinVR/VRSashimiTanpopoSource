@@ -1,0 +1,30 @@
+name: Build Quest master
+
+defaults:
+  run:
+    shell: cmd
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-quest-master:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        clean: false
+
+    - name: Unity Build
+      run: |
+        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForQuest -buildTarget Android -setDefaultPlatformTextureFormat astc -logFile -
+
+    - name: Release
+      run: |
+        copy dist\Quest\VRSashimiTanpopo.apk C:\Builds\VRSashimiTanpopo\Quest\VRSashimiTanpopoBuild${{ github.run_number }}.apk
+        adb kill-server
+        adb install -r dist\Quest\VRSashimiTanpopo.apk

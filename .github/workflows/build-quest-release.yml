@@ -1,0 +1,31 @@
+name: Build Quest release
+
+defaults:
+  run:
+    shell: cmd
+
+on:
+  push:
+    tags:
+      - 'release-*'
+
+jobs:
+  build-quest-release:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+        clean: false
+
+    - name: Unity Build
+      run: |
+        set BUILD_NUMBER=${{ github.run_number }}
+        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForQuestRelease -buildTarget Android -setDefaultPlatformTextureFormat astc -logFile -
+
+    - name: Release
+      run: |
+        copy dist\Quest\VRSashimiTanpopo.apk C:\Builds\VRSashimiTanpopo\Quest\VRSashimiTanpopoRelease${{ github.run_number }}.apk
+        "C:\bin\ovr-platform-util.exe" upload-quest-build --app-id ${{ secrets.OCULUS_APP_ID }} --app_secret ${{ secrets.OCULUS_APP_SECRET }} --apk dist\Quest\VRSashimiTanpopo.apk --channel alpha

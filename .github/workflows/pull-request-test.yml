@@ -1,0 +1,30 @@
+name: Pull Request Test
+
+defaults:
+  run:
+    shell: cmd
+
+on:
+  pull_request:
+    branches: [ master ]
+    types: [ opened, synchronize ]
+
+jobs:
+  pull-request-test:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        lfs: true
+        clean: false
+
+    # - name: Unity Play Mode Test
+    #   run: |
+    #     "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -projectPath . -runTests -testPlatform PlayMode -testResults TestResult-PlayMode.xml -stackTraceLogType None -logFile -
+
+    - name: Unity Edit Mode Test
+      run: |
+        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -projectPath . -runTests -testPlatform EditMode -testResults TestResult-EditMode.xml -stackTraceLogType None -logFile -

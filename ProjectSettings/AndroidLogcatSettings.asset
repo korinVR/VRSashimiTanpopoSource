@@ -1,0 +1,137 @@
+{
+    "m_SelectedDeviceId": "1WMHH822W70381",
+    "m_SelectedPackage": {
+        "deviceId": "1WMHH822W70381",
+        "name": "com.framesynthesis.VRSashimiTanpopo",
+        "processId": 16590,
+        "exited": false
+    },
+    "m_SelectedPriority": 0,
+    "m_KnownPackagesForSerialization": [
+        {
+            "deviceId": "1WMHH814CC0364",
+            "name": "com.oculus.vrshell",
+            "processId": 2758,
+            "exited": false
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 13107,
+            "exited": true
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 16527,
+            "exited": true
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 17029,
+            "exited": true
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 21208,
+            "exited": true
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 9834,
+            "exited": true
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 24688,
+            "exited": false
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 5518,
+            "exited": false
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 11756,
+            "exited": false
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 12195,
+            "exited": false
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 16270,
+            "exited": false
+        },
+        {
+            "deviceId": "1WMHH822W70381",
+            "name": "com.framesynthesis.VRSashimiTanpopo",
+            "processId": 16590,
+            "exited": false
+        }
+    ],
+    "m_Tags": {
+        "m_Entries": [
+            {
+                "m_Name": "Filter by all listed tags",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "No Filter",
+                "m_Selected": true
+            },
+            {
+                "m_Name": "",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "Tag Control...",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "Unity",
+                "m_Selected": false
+            },
+            {
+                "m_Name": "CRASH",
+                "m_Selected": false
+            }
+        ]
+    },
+    "m_MemoryViewerState": {
+        "MemoryWindowHeight": 300.0,
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
+        "MemoryGroup": 1,
+        "Behavior": 0
+    },
+    "m_Filter": "",
+    "m_FilterIsRegularExpression": false,
+    "m_SymbolPaths": []
+}

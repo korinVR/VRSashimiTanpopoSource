@@ -1,0 +1,22 @@
+{
+    "name": "FrameSynthesis.XR",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e40ba710768534012815d3193fa296cb",
+        "GUID:f64c9ebcd7899c3448a08dc9f9ddbe30",
+        "GUID:1fbf338ef6b952a448262a7ff7df5fe4",
+        "GUID:61538a945f77e9d48b553423bb29de60",
+        "GUID:5d16f48cc6a1af948b981b82b34fbe82",
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:35b9c7a103b322f43805bf1744257ac7"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

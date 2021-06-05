@@ -1,0 +1,22 @@
+{
+    "name": "FrameSynthesis.XR.Platform.WebXR",
+    "references": [
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:b23f8eaf003ee3742bbc671ff1258de1",
+        "GUID:13e84aeb609bf472ca773e87abfcaa32"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WebGL"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "PLATFORM_WEBXR"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
