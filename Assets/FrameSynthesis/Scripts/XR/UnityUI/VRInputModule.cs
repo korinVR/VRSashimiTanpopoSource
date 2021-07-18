@@ -70,7 +70,6 @@ namespace FrameSynthesis.XR.UnityUI
             //     if (state == State.Down && raycastedObjects[gameObject] == State.Hover)
             //     {
             //         ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerUpHandler);
-            //         ExecuteEvents.Execute(gameObject, pointerEventData, ExecuteEvents.pointerClickHandler);
             //     }
             // }
 

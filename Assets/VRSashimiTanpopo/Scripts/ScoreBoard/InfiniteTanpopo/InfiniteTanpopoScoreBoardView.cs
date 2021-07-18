@@ -18,13 +18,19 @@ namespace VRSashimiTanpopo.ScoreBoard.InfiniteTanpopo
             var minutes = (int) (workingTimeSec / 60) % 60;
             var seconds = (int) workingTimeSec % 60;
             var centiSeconds = (int) (workingTimeSec % 60 * 100) % 100;
-            
-            workingTime.text = $"{hours}時間{minutes:D2}分{seconds:D2}.{centiSeconds:D2}秒";
 
+            if (hours >= 1)
+            {
+                hours = 0;
+                minutes = 59;
+                seconds = 59;
+                centiSeconds = 99;
+            }
+            
             workingTime.text = LocalizationSettings.GetCurrentLanguage() switch
             {
-                Language.Japanese => $"{hours}時間{minutes:D2}分{seconds:D2}.{centiSeconds:D2}秒",
-                Language.English => $"{hours} h {minutes:D2} min {seconds:D2}.{centiSeconds:D2} s",
+                Language.Japanese => $"{minutes:D2}分{seconds:D2}秒<space=0.1em><size=80%>{centiSeconds:D2}",
+                Language.English => $"{minutes:D2}<space=0.5em>min {seconds:D2}<size=80%>.{centiSeconds:D2}<size=100%><space=0.5em>sec",
                 _ => throw new NotImplementedException()
             };
         }

@@ -2,93 +2,91 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
 using FrameSynthesis.XR;
-using UnityEngine;
-using VRM;
-using Ookii.Dialogs;
 using RootMotion.FinalIK;
 using UniGLTF;
+using UnityEngine;
 using VContainer;
+using VRM;
 using VRSashimiTanpopo.Debug;
-using VRSashimiTanpopo.Localization;
 
 namespace VRSashimiTanpopo.VRM
 {
     public class VRMLoader : MonoBehaviour
     {
-        [SerializeField] string vrmFilename;
-
         [Inject] ICameraRig cameraRig;
         [Inject] IKTargets ikTargets;
         [Inject] DebugSettings debugSettings;
 
-        void Start()
-        {
-            if (debugSettings.LoadTestVRM)
-            {
-                LoadVRMAsync(Path.Combine(Application.dataPath, "..", "VRM", vrmFilename)).Forget();
-            }
-        }
+        GltfParser gltfParser;
+        GameObject vrmGameObject;
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                OpenDialog();
-            }
-        }
-
-        void OpenDialog()
+        public async UniTask<bool> OpenDialog()
         {
 #if PLATFORM_STEAMVR
-            var dialog = new VistaOpenFileDialog();
-            dialog.Filter = LocalizationSettings.GetCurrentLanguage() switch
+            var filename = await OpenFileDialog.Open("VRMファイル (*.vrm)|*.vrm", "VRMファイルの読み込み");
+            if (filename != "")
             {
-                Language.English => "VRM File",
-                Language.Japanese => "VRM ファイル",
-                _ => throw new ArgumentOutOfRangeException()
-            } + "|*.vrm";
-            dialog.ShowDialog();
+                try
+                {
+                    var bytes = File.ReadAllBytes(filename);
 
-            if (dialog.FileName != "")
-            {
-                LoadVRMAsync(dialog.FileName).Forget();
+                    gltfParser = new GltfParser();
+                    gltfParser.ParseGlb(bytes);
+                }
+                catch (Exception e)
+                {
+                    return false;
+                }
+                return true;
             }
 #endif
+            return false;
         }
 
-        async UniTask LoadVRMAsync(string filename)
+        public void DestroyVRM()
         {
-            var bytes = File.ReadAllBytes(filename);
+            if (vrmGameObject == null) return;
 
-            var parser = new GltfParser();
-            parser.ParseGlb(bytes);
-            
-            using var context = new VRMImporterContext(parser);
-            var meta = context.ReadMeta();
-
-            // UnityEngine.Debug.LogFormat("meta: title:{0}", meta.Title);
-
-            await context.LoadAsync();
-            
-            context.EnableUpdateWhenOffscreen();
-            context.ShowMeshes();
-            context.DisposeOnGameObjectDestroyed();
-            
-            var root = context.Root;
-            root.transform.SetParent(transform, false);
-            context.ShowMeshes();
-            
-            SetupVRIK(root);
+            Destroy(vrmGameObject);
+            vrmGameObject = null;
         }
 
-        void SetupVRIK(GameObject root)
+        public void LoadVRM()
         {
-            var vrik = root.AddComponent<VRIK>();
+            LoadVRMAsync().Forget();
+        }
 
-            var vrmFirstPerson = root.GetComponent<VRMFirstPerson>();
+        async UniTask LoadVRMAsync()
+        {
+            DestroyVRM();
+
+            using (var context = new VRMImporterContext(gltfParser))
+            {
+                var meta = context.ReadMeta();
+                ShowVRMMetaData(meta);
+                await context.LoadAsync();
+
+                context.EnableUpdateWhenOffscreen();
+                context.ShowMeshes();
+                context.DisposeOnGameObjectDestroyed();
+
+                vrmGameObject = context.Root;
+                vrmGameObject.transform.SetParent(transform, false);
+                context.ShowMeshes();
+            }
+
+            var vrmFirstPerson = vrmGameObject.GetComponent<VRMFirstPerson>();
             vrmFirstPerson.Setup();
             ikTargets.SetFirstPersonOffset(vrmFirstPerson.FirstPersonOffset);
+
+            var vrmEyeHeight = (vrmFirstPerson.FirstPersonBone.position + vrmFirstPerson.FirstPersonOffset).y;
+            var playerEyeHeight = cameraRig.GetTransform(TrackingPoint.Head).position.y;
+
+            var scale = playerEyeHeight / vrmEyeHeight;
+            vrmGameObject.transform.localScale = new Vector3(scale, scale, scale);
             
+            var vrik = vrmGameObject.AddComponent<VRIK>();
+
             vrik.solver.spine.headTarget = ikTargets.HeadTarget;
             vrik.solver.leftArm.target = cameraRig.GetTransform(TrackingPoint.LeftHand);
             vrik.solver.rightArm.target = cameraRig.GetTransform(TrackingPoint.RightHand);
@@ -107,6 +105,14 @@ namespace VRSashimiTanpopo.VRM
             vrik.solver.locomotion.weight = 0f;
 
             Camera.main.cullingMask &= ~(1 << LayerName.ThirdPersonOnly);
+        }
+
+        void ShowVRMMetaData(VRMMetaObject metaObject)
+        {
+            UnityEngine.Debug.Log("Title: " + metaObject.Title);
+            UnityEngine.Debug.Log("Version: " + metaObject.Version);
+            UnityEngine.Debug.Log("Author: " + metaObject.Author);
+            UnityEngine.Debug.Log("Contact Information: " + metaObject.ContactInformation);
         }
     }
 }

@@ -21,7 +21,7 @@ jobs:
 
     - name: Unity Build
       run: |
-        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForRift -buildTarget Win64 -logFile -
+        "C:\Program Files\Unity\Hub\Editor\2021.1.12f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForRift -buildTarget Win64 -logFile -
 
     - name: Release
       run: xcopy /S /E /I /Y dist\Rift C:\Builds\VRSashimiTanpopo\Rift\VRSashimiTanpopoBuild${{ github.run_number }}

@@ -4,7 +4,7 @@ using VContainer;
 
 namespace FrameSynthesis.XR
 {
-    public class LiveCamera : MonoBehaviour
+    public class ExternalDisplayCamera : MonoBehaviour
     {
         [Inject] IPlatform platform;
 

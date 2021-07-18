@@ -9,6 +9,7 @@ using VRSashimiTanpopo.Achievements;
 using VRSashimiTanpopo.Debug;
 using VRSashimiTanpopo.Model;
 using VRSashimiTanpopo.Screen;
+using VRSashimiTanpopo.SpectatorCamera;
 using VRSashimiTanpopo.UI;
 using VRSashimiTanpopo.VRM;
 
@@ -36,8 +37,8 @@ namespace VRSashimiTanpopo
 #if PLATFORM_OCULUS
             builder.RegisterEntryPoint<FrameSynthesis.XR.Platform.Oculus.OculusPlatform>();
             builder.RegisterEntryPoint<FrameSynthesis.XR.Platform.Oculus.OculusDisplayFader>();
-            Instantiate(Resources.Load("OculusCameraRig"));
-            builder.RegisterComponentInHierarchy<FrameSynthesis.XR.Platform.Oculus.OculusCameraRig>().As<ICameraRig>();
+            var cameraRig = ((GameObject) Instantiate(Resources.Load("OculusCameraRig"))).GetComponent<ICameraRig>();
+            builder.RegisterComponent(cameraRig).As<ICameraRig>();
 #if UNITY_EDITOR
             builder.RegisterEntryPoint<NullAchievementManager>().As<IAchievementManager>();
 #else
@@ -48,15 +49,15 @@ namespace VRSashimiTanpopo
 #if PLATFORM_STEAMVR
             builder.RegisterEntryPoint<FrameSynthesis.XR.Platform.SteamVR.SteamVRPlatform>();
             builder.RegisterEntryPoint<FrameSynthesis.XR.Platform.SteamVR.SteamVRDisplayFader>();
-            Instantiate(Resources.Load("SteamVRCameraRig"));
-            builder.RegisterComponentInHierarchy<FrameSynthesis.XR.Platform.SteamVR.SteamVRCameraRig>().As<ICameraRig>();
+            var cameraRig = ((GameObject) Instantiate(Resources.Load("SteamVRCameraRig"))).GetComponent<ICameraRig>();
+            builder.RegisterComponent(cameraRig).As<ICameraRig>();
 
             builder.RegisterEntryPoint<NullAchievementManager>().As<IAchievementManager>();
 #endif
 #if PLATFORM_WEBXR
             builder.RegisterEntryPoint<FrameSynthesis.XR.Platform.WebXR.WebXRPlatform>();
-            Instantiate(Resources.Load("WebXRCameraRig"));
-            builder.RegisterComponentInHierarchy<FrameSynthesis.XR.Platform.WebXR.WebXRCameraRig>().As<ICameraRig>();
+            var cameraRig = ((GameObject) Instantiate(Resources.Load("WebXRCameraRig"))).GetComponent<ICameraRig>();
+            builder.RegisterComponent(cameraRig).As<ICameraRig>();
 
             builder.RegisterEntryPoint<NullAchievementManager>().As<IAchievementManager>();
 #endif
@@ -68,12 +69,15 @@ namespace VRSashimiTanpopo
             builder.RegisterComponentInHierarchy<DebugLogWindow>();
 
             builder.RegisterComponentInHierarchy<PauseOnInputFocusLost>();
-            builder.RegisterComponentInHierarchy<LiveCamera>();
+            builder.RegisterComponentInHierarchy<ExternalDisplayCamera>();
+            builder.RegisterComponentInHierarchy<ExternalDisplayFader>();
             builder.RegisterComponentInHierarchy<ScreenShotButton>();
             builder.RegisterComponentInHierarchy<VRInputModule>();
 
             builder.RegisterComponentInHierarchy<VRMLoader>();
             builder.RegisterComponentInHierarchy<IKTargets>();
+
+            builder.RegisterComponentInHierarchy<SpectatorCameraSelector>();
             
             builder.RegisterInstance(debugSettings);
             
@@ -81,6 +85,7 @@ namespace VRSashimiTanpopo
             builder.RegisterEntryPoint<ScreenManager>();
 
             builder.Register<HandTrackingGuide>(Lifetime.Singleton);
+            builder.Register<DisplayFader>(Lifetime.Singleton);
             
             RegisterModels(builder);
             RegisterScreens(builder);
@@ -122,10 +127,11 @@ namespace VRSashimiTanpopo
             {
                 var voicePlayer = container.Resolve<VoicePlayer>();
                 var soundEffectPlayer = container.Resolve<SoundEffectPlayer>();
+                var vrmLoader = container.Resolve<VRMLoader>();
                 return () =>
                 {
                     var titleMenu = Instantiate(titleMenuPrefab);
-                    titleMenu.Construct(voicePlayer, soundEffectPlayer);
+                    titleMenu.Construct(voicePlayer, soundEffectPlayer, vrmLoader);
                     return titleMenu;
                 };
             }, Lifetime.Scoped);

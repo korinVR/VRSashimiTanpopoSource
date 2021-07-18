@@ -23,7 +23,7 @@ jobs:
     - name: Unity Build
       run: |
         set BUILD_NUMBER=${{ github.run_number }}
-        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForQuestRelease -buildTarget Android -setDefaultPlatformTextureFormat astc -logFile -
+        "C:\Program Files\Unity\Hub\Editor\2021.1.12f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForQuestRelease -buildTarget Android -setDefaultPlatformTextureFormat astc -logFile -
 
     - name: Release
       run: |

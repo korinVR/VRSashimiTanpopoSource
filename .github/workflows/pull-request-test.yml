@@ -23,8 +23,8 @@ jobs:
 
     # - name: Unity Play Mode Test
     #   run: |
-    #     "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -projectPath . -runTests -testPlatform PlayMode -testResults TestResult-PlayMode.xml -stackTraceLogType None -logFile -
+    #     "C:\Program Files\Unity\Hub\Editor\2021.1.12f1\Editor\Unity.exe" -projectPath . -runTests -testPlatform PlayMode -testResults TestResult-PlayMode.xml -stackTraceLogType None -logFile -
 
     - name: Unity Edit Mode Test
       run: |
-        "C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe" -projectPath . -runTests -testPlatform EditMode -testResults TestResult-EditMode.xml -stackTraceLogType None -logFile -
+        "C:\Program Files\Unity\Hub\Editor\2021.1.12f1\Editor\Unity.exe" -projectPath . -runTests -testPlatform EditMode -testResults TestResult-EditMode.xml -stackTraceLogType None -logFile -

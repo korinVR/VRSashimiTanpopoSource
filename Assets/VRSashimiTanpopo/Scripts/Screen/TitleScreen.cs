@@ -20,6 +20,7 @@ namespace VRSashimiTanpopo.Screen
         public override async UniTask InitializeAsync()
         {
             DisplayFader.HideDisplay();
+            ScreenManager.SpectatorCameraSelector.Select(SpectatorCamera.Viewpoint.TitleScreenCamera);
 
             titleMenu = titleMenuFactory.Invoke();
             titleMenu.Started += StartGame;
@@ -30,9 +31,6 @@ namespace VRSashimiTanpopo.Screen
             VoicePlayer.Play(Voice.VRSashimiTanpopo);
 
             DisplayFader.FadeIn();
-            await UniTask.Delay(2000);
-            
-            titleMenu.ShowTopMenu();
         }
 
         public override async UniTask FinishAsync()

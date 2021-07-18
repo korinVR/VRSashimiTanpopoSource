@@ -73,8 +73,8 @@ namespace VRSashimiTanpopo.Achievements
 
         public void UnlockInfiniteTanpopoAchievement(int index)
         {
-            if (index < 1 || index > 8) return;
-            Oculus.Platform.Achievements.Unlock("InfiniteTanpopo" + index);
+            // if (index < 1 || index > 8) return;
+            // Oculus.Platform.Achievements.Unlock("InfiniteTanpopo" + index);
         }
 
         static async UniTask ResetAchievementsAsync()

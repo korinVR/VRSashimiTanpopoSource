@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/VRSashimiTanpopo/Environments/Scenes/InfiniteTanpopoFactory/InfiniteTanpopoFactory.unity
     guid: 7e769364ba9c3ac4ea3dc2591fa0db9b
+  - enabled: 1
+    path: Assets/VRSashimiTanpopo/VRM/ShaderStripPreventer.unity
+    guid: 22cd0153d543e1542b5ce3c167d12dbe
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 4ec0927128ed05443aba32937aec89a3,
       type: 2}

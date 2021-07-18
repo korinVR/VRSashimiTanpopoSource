@@ -30,6 +30,8 @@ namespace VRSashimiTanpopo.Screen
         
         public override async UniTask InitializeAsync()
         {
+            ScreenManager.SpectatorCameraSelector.Select(SpectatorCamera.Viewpoint.InGameCamera);
+            
             switch (this)
             {
                 case SashimiTanpopoGameScreen _:

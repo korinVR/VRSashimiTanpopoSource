@@ -1,4 +1,4 @@
-name: Build SteamVR master
+name: Build SteamVR release
 
 defaults:
   run:
@@ -6,10 +6,11 @@ defaults:
 
 on:
   push:
-    branches: [ master ]
+    tags:
+      - 'release-*'
 
 jobs:
-  build-steamvr-master:
+  build-steamvr-release:
     runs-on: self-hosted
 
     steps:
@@ -24,4 +25,8 @@ jobs:
         "C:\Program Files\Unity\Hub\Editor\2021.1.12f1\Editor\Unity.exe" -quit -batchmode -projectPath . -executeMethod FrameSynthesis.XR.Builder.BuildForSteamVR -buildTarget Win64 -logFile -
 
     - name: Release
-      run: xcopy /S /E /I /Y dist\SteamVR C:\Builds\VRSashimiTanpopo\SteamVR\VRSashimiTanpopoBuild${{ github.run_number }}
+      run: |
+        xcopy /S /E /I /Y dist\SteamVR C:\Builds\VRSashimiTanpopo\SteamVR\VRSashimiTanpopoRelease${{ github.run_number }}
+        robocopy /MIR dist\steamVR C:\bin\steamworks_sdk_151\sdk\tools\ContentBuilder\content
+        cd C:\bin\steamworks_sdk_151\sdk\tools\ContentBuilder
+        run_build.bat

@@ -6,6 +6,7 @@ using VContainer;
 using VContainer.Unity;
 using VRSashimiTanpopo.Achievements;
 using VRSashimiTanpopo.Model;
+using VRSashimiTanpopo.SpectatorCamera;
 using VRSashimiTanpopo.UI;
 
 namespace VRSashimiTanpopo.Screen
@@ -20,10 +21,11 @@ namespace VRSashimiTanpopo.Screen
         public Func<Action, ResetButtonCanvas> ResetButtonCanvasFactory { get; }
 
         public SceneLoader SceneLoader { get; }
+        public SpectatorCameraSelector SpectatorCameraSelector { get; }
 
         public IAchievementManager AchievementManager { get; }
         
-        readonly IDisplayFader displayFader;
+        readonly DisplayFader displayFader;
 
         readonly MusicPlayer musicPlayer;
         readonly VoicePlayer voicePlayer;
@@ -48,7 +50,8 @@ namespace VRSashimiTanpopo.Screen
             Func<Action, ResetButtonCanvas> resetButtonCanvasFactory,
             
             SceneLoader sceneLoader,
-            IDisplayFader displayFader,
+            DisplayFader displayFader,
+            SpectatorCameraSelector spectatorCameraSelector,
             
             MusicPlayer musicPlayer,
             VoicePlayer voicePlayer,
@@ -69,13 +72,13 @@ namespace VRSashimiTanpopo.Screen
             ResetButtonCanvasFactory = resetButtonCanvasFactory;
 
             SceneLoader = sceneLoader;
-            
+            SpectatorCameraSelector = spectatorCameraSelector;
+            this.displayFader = displayFader;
+
             this.musicPlayer = musicPlayer;
             this.voicePlayer = voicePlayer;
             this.soundEffectPlayer = soundEffectPlayer;
             
-            this.displayFader = displayFader;
-
             this.gameModel = gameModel;
             this.scoreModel = scoreModel;
             this.countdownTimerModel = countdownTimerModel;
